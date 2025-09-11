@@ -1,22 +1,29 @@
 const express = require('express');
-require('dotenv').config()
+require('dotenv').config();
 const app = express();
+
+app.use(express.json());
+
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to My Backend Code" });
 });
-
-const PORT = process.env.PORT||8000;
-
 
 const routeModules = [
   "./app/apis/routes/customer.routes.js",
 ];
 
 routeModules.forEach((routePath) => {
-  require(routePath)(app);
+  const route = require(routePath);
+  if (typeof route === 'function') {
+    route(app);
+  } else {
+    console.log(`Route module at ${routePath} does not export a function.`);
+  }
 });
 
-app.listen(PORT,async()=>{
-    console.log(`Server started at Port ${PORT}`)
-})
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server started at port ${PORT}`);
+});
