@@ -1,5 +1,9 @@
 module.exports = (app) => {
-    // const customers = require("../controllers/customer.controller.js");
+    const Auth = require("../../mongodb/schema/Auth.schema");
 
-    app.get("/customers", (req, res) => {res.json({ message: "List of customers" });});
+    app.get("/customers", async (req, res) => { 
+              const data = await Auth.create({
+        text: "done",
+      });
+        res.json({ message: "List of customers" }); });
 };
