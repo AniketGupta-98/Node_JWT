@@ -1,10 +1,21 @@
 const mongoose = require('mongoose');
 
-const AuthSchema = new mongoose.Schema(
-    {
-    Auth: {
+const UserCreateSchema = new mongoose.Schema(
+  {
+    FirstName: {
       type: String,
       require: true,
+    },
+    LastName: {
+      type: String,
+      require: true,
+    },
+    UserId: {
+      type: String,
+      require: true,
+    },
+    Token: {
+      type: String,
     },
   },
   {
@@ -12,5 +23,5 @@ const AuthSchema = new mongoose.Schema(
   }
 );
 
-const Auth = mongoose.model("customer_auths", AuthSchema);
-module.exports = Auth;
+const User = mongoose.model("customer_auths", UserCreateSchema);
+module.exports = User;
