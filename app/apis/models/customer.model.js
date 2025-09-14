@@ -1,6 +1,4 @@
-// import User from "../../mongodb/schema/Auth.schema";
 const User = require("../../mongodb/schema/Auth.schema");
-
 
 const Customers = function (body) {
     this.firstName = qrcodes.firstName;
@@ -10,7 +8,15 @@ const Customers = function (body) {
 
 Customers.qrCodeAll = (reqBody) => {
     return new Promise((resolve, reject) => {
-       
+
+        const existUser = User.find({
+            UserId: reqBody.userId
+        })
+
+        if (existUser) {
+            resolve()
+        }
+
     });
 };
 
