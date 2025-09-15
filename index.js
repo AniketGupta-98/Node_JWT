@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const mongoDbConnect = require("./app/mongodb/mongoDbConnect");
 require('dotenv').config();
 const app = express();
@@ -25,7 +25,7 @@ routeModules.forEach((routePath) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, async() => {
+app.listen(PORT, async () => {
   console.log(`🚀 Server started at port ${PORT}`);
   // await mongoDbConnect()
 });
