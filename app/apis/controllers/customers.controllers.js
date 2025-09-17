@@ -10,7 +10,7 @@ exports.Create = async (req, res) => {
         }
 
         const { firstName, lastName, userId } = req.body;
-        const requiredFields = ['firstName', 'lastName', 'userId'];
+        const requiredFields = ['firstName', 'lastName', 'userId',"password","contact","email"];
         const missingFields = requiredFields.filter(field => !req.body[field]);
 
         if (missingFields.length > 0) {

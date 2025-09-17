@@ -11,15 +11,18 @@ Customers.userCreate = (reqBody) => {
     return new Promise(async (resolve, reject) => {
 
         const existUser = await User.find({
-            UserId: reqBody.userId
+            userId: reqBody.userId
         });
         if (existUser && existUser.length > 0) {
             resolve({ success: false, message: "User already exist" });
         } else {
             const createUser = await User.create({
-                FirstName: reqBody.firstName,
-                LastName: reqBody.lastName,
-                UserId: reqBody.userId
+                firstName: reqBody.firstName,
+                lastName: reqBody.lastName,
+                userId: reqBody.userId,
+                password: reqBody.password,
+                mobile: reqBody.contact,
+                email: reqBody.email
             });
 
             if (createUser && createUser._id) {
