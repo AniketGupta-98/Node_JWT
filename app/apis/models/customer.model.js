@@ -1,4 +1,4 @@
-import User from "../../mongodb/schema/Auth.schema";
+const User = require('../../mongodb/schema/Customer.schema');
 class Customers {
     constructor(body) {
         this.firstName = body.firstName;
@@ -7,17 +7,27 @@ class Customers {
     }
 }
 
-Customers.qrCodeAll = (reqBody) => {
-    return new Promise((resolve, reject) => {
+Customers.userCreate = (reqBody) => {
+    return new Promise(async (resolve, reject) => {
 
-        const existUser = User.find({
+        const existUser = await User.find({
             UserId: reqBody.userId
-        })
+        });
+        if (existUser && existUser.length > 0) {
+            resolve({ success: false, message: "User already exist" });
+        } else {
+            const createUser = await User.create({
+                FirstName: reqBody.firstName,
+                LastName: reqBody.lastName,
+                UserId: reqBody.userId
+            });
 
-        if (existUser) {
-            resolve()
+            if (createUser && createUser._id) {
+                resolve({ success: true, message: "user created successfully" });
+            } else {
+                resolve({ success: false, message: "failed to create user" });
+            }
         }
-
     });
 };
 

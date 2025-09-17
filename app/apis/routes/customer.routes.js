@@ -1,4 +1,4 @@
-export default (app) => {
+module.exports = (app) => {
     const customers = require("../controllers/customers.controllers")
 
 

@@ -1,4 +1,4 @@
-import Customers from '../models/customer.model'
+const Customers = require('../models/customer.model');
 
 exports.Create = async (req, res) => {
     try {
@@ -20,12 +20,12 @@ exports.Create = async (req, res) => {
             });
         }
 
+        const createUser = await Customers.userCreate(req.body)
 
-
-        // return res.status(201).json({
-        //     message: "User created successfully.",
-        //     data: newUser,
-        // });
+        return res.status(201).json({
+            success: createUser.success,
+            message: createUser.message,
+        });
     } catch (error) {
         console.error("Error in Create:", error);
         return res.status(500).json({
