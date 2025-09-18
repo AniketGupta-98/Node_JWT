@@ -1,5 +1,7 @@
 const Customers = require('../models/customer.model');
 
+const { isValidEmail, isValidContact } = require('../../validator/index')
+
 exports.Create = async (req, res) => {
     try {
         if (!Object.keys(req.body).length) {
@@ -19,19 +21,16 @@ exports.Create = async (req, res) => {
                 message: `Missing required field(s): ${missingFields.join(', ')}`,
             });
         }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(req.body.email)) {
+        if (!isValidEmail(req.body.email)) {
             return res.status(400).json({ error: 'Invalid email format' });
         }
-        
-        const contact = String(req.body.contact);
-        if (!/^\d{10}$/.test(contact)) {
+
+        if (!isValidContact(req.body.contact)) {
             return res.status(400).json({ error: 'Contact must be a 10-digit number' });
         }
 
-        const createUser = await Customers.userCreate(req.body)
-
+        const createUser = await Customers.userCreate(req.body);
+        
         return res.status(201).json({
             success: createUser.success,
             message: createUser.message,
