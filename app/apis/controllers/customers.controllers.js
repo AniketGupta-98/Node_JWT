@@ -1,4 +1,5 @@
 const Customers = require('../models/customer.model');
+const jwt = require('jsonwebtoken');
 
 const { isValidEmail, isValidContact } = require('../../validator/index')
 
@@ -63,7 +64,6 @@ exports.login = async (req, res) => {
         }
 
         const checkUser = await Customers.existUser(userId);
-        console.log("checkUser", checkUser)
         if (!checkUser.success) {
             return res.status(404).json({
                 errorcode: '210',
@@ -78,13 +78,25 @@ exports.login = async (req, res) => {
             });
         }
 
-        delete checkUser.success;
-        delete checkUser.userData.password;
+        const access_token = jwt.sign(
+            {
+                id: checkUser.userData._id,
+                UserId: checkUser.userData.userId,
+                email: checkUser.userData.email,
+                createdAt: checkUser.userData.createdAt,
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "2d",
+            }
+        );
+
+        const tokenUpdate = await Customers.updateAccessToken(checkUser.userData._id, access_token);
 
         return res.status(200).json({
             success: true,
             message: 'Login successful',
-            userData: checkUser.userData,
+            userData: tokenUpdate,
         });
     } catch (error) {
         console.error("Error in Create:", error);

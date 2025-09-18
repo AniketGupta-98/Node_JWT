@@ -45,5 +45,16 @@ Customers.existUser = (userId) => {
     });
 };
 
+Customers.updateAccessToken = (id, token) => {
+    return new Promise(async (resolve, reject) => {
+        const existUser = await User.findByIdAndUpdate(id, { Token: token }, { new: true });
+        const userObj = existUser.toObject();
+        delete userObj.password;
+        delete userObj._id;
+        console.log("userObj", userObj)
+        resolve(userObj)
+    });
+};
+
 
 module.exports = Customers;
