@@ -28,6 +28,7 @@ const UserCreateSchema = new mongoose.Schema(
     },
     Token: {
       type: String,
+      default: '',
     },
   },
   {

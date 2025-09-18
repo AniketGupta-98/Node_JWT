@@ -34,5 +34,16 @@ Customers.userCreate = (reqBody) => {
     });
 };
 
+Customers.existUser = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        const existUser = await User.findOne({ userId });
+        if (Object.keys(existUser).length != 0) {
+            resolve({ success: true, userData: existUser });
+        } else {
+            resolve({ success: false, userData: {} });
+        }
+    });
+};
+
 
 module.exports = Customers;
