@@ -10,7 +10,7 @@ exports.Create = async (req, res) => {
         }
 
         const { firstName, lastName, userId } = req.body;
-        const requiredFields = ['firstName', 'lastName', 'userId',"password","contact","email"];
+        const requiredFields = ['firstName', 'lastName', 'userId', "password", "contact", "email"];
         const missingFields = requiredFields.filter(field => !req.body[field]);
 
         if (missingFields.length > 0) {
@@ -18,6 +18,16 @@ exports.Create = async (req, res) => {
                 errorcode: '209',
                 message: `Missing required field(s): ${missingFields.join(', ')}`,
             });
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(req.body.email)) {
+            return res.status(400).json({ error: 'Invalid email format' });
+        }
+        
+        const contact = String(req.body.contact);
+        if (!/^\d{10}$/.test(contact)) {
+            return res.status(400).json({ error: 'Contact must be a 10-digit number' });
         }
 
         const createUser = await Customers.userCreate(req.body)
