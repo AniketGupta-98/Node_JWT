@@ -80,7 +80,8 @@ exports.login = async (req, res) => {
 
         const access_token = jwt.sign(
             {
-                id: checkUser.userData._id,
+                firstName:checkUser.userData.firstName,
+                lastName:checkUser.userData.lastName,
                 UserId: checkUser.userData.userId,
                 email: checkUser.userData.email,
                 createdAt: checkUser.userData.createdAt,
@@ -106,3 +107,23 @@ exports.login = async (req, res) => {
         });
     }
 };
+
+
+exports.getAllUser = async (req, res) => {
+    try {
+        const usersAll = await Customers.allUserGet();
+        return res.status(200).json({
+            success: true,
+            userData: usersAll,
+        });
+    } catch (error) {
+        console.error("Error in Create:", error);
+        return res.status(500).json({
+            errorcode: '500',
+            message: 'Internal server error',
+        });
+    }
+};
+
+
+

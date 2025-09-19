@@ -57,4 +57,12 @@ Customers.updateAccessToken = (id, token) => {
 };
 
 
+Customers.allUserGet = () => {
+    return new Promise(async (resolve, reject) => {
+        const existUser = await User.find({});
+        resolve(existUser)
+    });
+};
+
+
 module.exports = Customers;
