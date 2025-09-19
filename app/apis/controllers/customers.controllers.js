@@ -82,7 +82,7 @@ exports.login = async (req, res) => {
             {
                 firstName:checkUser.userData.firstName,
                 lastName:checkUser.userData.lastName,
-                UserId: checkUser.userData.userId,
+                userId: checkUser.userData.userId,
                 email: checkUser.userData.email,
                 createdAt: checkUser.userData.createdAt,
             },
